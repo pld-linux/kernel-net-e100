@@ -1,28 +1,26 @@
-
 # conditional build
 # _without_dist_kernel          without distribution kernel
-
 %define		_orig_name	e100
 
 Summary:	Intel(R) PRO/100 driver for Linux
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
 Name:		kernel-net-%{_orig_name}
-Version:	2.0.30
-%define	_rel	2
+Version:	2.1.6
+%define	_rel	0.1
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	BSD
 Vendor:		Intel Corporation
 Group:		Base/Kernel
 Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version}.tar.gz
-Patch0:		%{_orig_name}-makefile.patch
-%{!?_without_dist_kernel:BuildRequires:         kernel-headers }
-BuildRequires:	%{kgcc_package}
 URL:		http://support.intel.com/support/network/adapter/pro100/
-Obsoletes:	e100
-Obsoletes:	linux-net-e100
-Provides:	kernel(e100)
+%{!?_without_dist_kernel:BuildRequires:         kernel-headers }
+BuildRequires:	kernel-source
+BuildRequires:	%{kgcc_package}
 Prereq:		/sbin/depmod
 %{!?_without_dist_kernel:%requires_releq_kernel_up}
+Provides:	kernel(e100)
+Obsoletes:	e100
+Obsoletes:	linux-net-e100
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -53,8 +51,7 @@ Ten pakiet zawiera sterownik dla Linuksa SMP do kart sieciowych
 10/100Mbit z rodziny Intel(R) PRO/100.
 
 %prep
-%setup -q -n e100-%{version}
-%patch0 -p0
+%setup -q -n %{_orig_name}-%{version}
 
 %build
 %{__make} -C src SMP=1 CC="%{kgcc} -DCONFIG_X86_LOCAL_APIC -DSTB_WA"
@@ -86,10 +83,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc e100.7 e100.txt LICENSE
+%doc e100.7 README LICENSE
 /lib/modules/%{_kernel_ver}/misc/*
 
 %files -n kernel-smp-net-%{_orig_name}
 %defattr(644,root,root,755)
-%doc e100.7 e100.txt LICENSE
+%doc e100.7 README LICENSE
 /lib/modules/%{_kernel_ver}smp/misc/*
