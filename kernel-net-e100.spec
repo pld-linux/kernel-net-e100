@@ -16,7 +16,7 @@ Group:		Base/Kernel
 Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version}.tar.gz
 # Source0-md5:	8e448bdc464ddd9db9528455604021b2
 URL:		http://support.intel.com/support/network/adapter/pro100/
-%{!?_without_dist_kernel:BuildRequires:         kernel-source > 2.4 }
+%{!?_without_dist_kernel:BuildRequires:	kernel-source > 2.4 }
 BuildRequires:	%{kgcc_package}
 BuildRequires:	rpmbuild(macros) >= 1.118
 %{!?_without_dist_kernel:%requires_releq_kernel_up}
@@ -74,7 +74,7 @@ install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
 install src/%{_orig_name}-smp.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc/%{_orig_name}.o
 install src/%{_orig_name}.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc/%{_orig_name}.o
 
-%clean 
+%clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
