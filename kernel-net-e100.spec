@@ -1,5 +1,7 @@
-# conditional build
+#
+# Conditional build:
 # _without_dist_kernel          without distribution kernel
+#
 %define		_orig_name	e100
 
 Summary:	Intel(R) PRO/100 driver for Linux
@@ -15,8 +17,8 @@ Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version
 URL:		http://support.intel.com/support/network/adapter/pro100/
 %{!?_without_dist_kernel:BuildRequires:         kernel-source > 2.4 }
 BuildRequires:	%{kgcc_package}
-Prereq:		/sbin/depmod
 %{!?_without_dist_kernel:%requires_releq_kernel_up}
+Requires(post,postun):	/sbin/depmod
 Provides:	kernel(e100)
 Obsoletes:	e100
 Obsoletes:	linux-net-e100
@@ -35,11 +37,11 @@ Summary:	Intel(R) PRO/100 driver for Linux SMP
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
-Prereq:		/sbin/depmod
 %{!?_without_dist_kernel:%requires_releq_kernel_smp}
+Requires(post,postun):	/sbin/depmod
+Provides:	kernel(e100)
 Obsoletes:	e100
 Obsoletes:	linux-net-e100
-Provides:	kernel(e100)
 
 %description -n kernel-smp-net-%{_orig_name}
 This package contains the Linux SMP driver for the Intel(R) PRO/100
@@ -53,14 +55,11 @@ Ten pakiet zawiera sterownik dla Linuksa SMP do kart sieciowych
 %setup -q -n %{_orig_name}-%{version}
 
 %build
-
 %ifarch %{ix86}
 %{__make} -C src SMP=1 CC="%{kgcc} -DSTB_WA -DCONFIG_X86_LOCAL_APIC" KSRC=%{_kernelsrcdir}
 %else
 %{__make} -C src SMP=1 CC="%{kgcc} -DSTB_WA" KSRC=%{_kernelsrcdir}
 %endif
-
-
 
 mv -f src/%{_orig_name}.o src/%{_orig_name}-smp.o
 %{__make} -C src clean KSRC=%{_kernelsrcdir}
@@ -77,16 +76,16 @@ install src/%{_orig_name}.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc/%{_o
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/depmod -a
+/sbin/depmod -a -F /boot/System.map-%{_kernel_ver} %{_kernel_ver}
 
 %postun
-/sbin/depmod -a
+/sbin/depmod -a -F /boot/System.map-%{_kernel_ver} %{_kernel_ver}
 
-%post -n kernel-smp-net-%{_orig_name}
-/sbin/depmod -a
+%post	-n kernel-smp-net-%{_orig_name}
+/sbin/depmod -a -F /boot/System.map-%{_kernel_ver} %{_kernel_ver}
 
 %postun -n kernel-smp-net-%{_orig_name}
-/sbin/depmod -a
+/sbin/depmod -a -F /boot/System.map-%{_kernel_ver} %{_kernel_ver}
 
 %files
 %defattr(644,root,root,755)
