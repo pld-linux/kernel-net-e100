@@ -21,6 +21,7 @@ Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version
 Patch0:		%{_orig_name}-makefile.patch
 Patch1:		%{_orig_name}-redefine.patch
 %{!?_without_dist_kernel:BuildRequires:         kernel-headers }
+%{!?_without_dist_kernel:BuildRequires:         kernel-source }
 Obsoletes: 	kernel-smp-net-%{_orig_name}
 Obsoletes:      e100
 Obsoletes:      linux-net-e100
