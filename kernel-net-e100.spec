@@ -11,14 +11,14 @@
 Summary:	Intel(R) PRO/100 driver for Linux
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
 Name:		kernel-net-%{_orig_name}
-Version:	2.3.33
-%define	_rel	1
+Version:	3.3.6
+%define	_rel	0.1
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	BSD
 Vendor:		Intel Corporation
 Group:		Base/Kernel
 Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version}.tar.gz
-# Source0-md5:	847918a08443aac122205c122d5c3f98
+# Source0-md5:	6f4fb4e4092c65c59fc560803d1da4ab
 URL:		http://support.intel.com/support/network/adapter/pro100/
 %{!?_without_dist_kernel:BuildRequires:	kernel-source > 2.4 }
 BuildRequires:	%{kgcc_package}
