@@ -5,7 +5,7 @@
 %define		_kernel_ver	%(grep UTS_RELEASE %{_kernelsrcdir}/include/linux/version.h 2>/dev/null | cut -d'"' -f2)
 %define		_kernel_ver_str	%(echo %{_kernel_ver} | sed s/-/_/g)
 %define		_orig_name	e100
-%define		_rel 2
+%define		_rel 3
 
 Summary:	Intel(R) PRO/100 driver for Linux
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
@@ -18,14 +18,14 @@ Group:		Base/Kernel
 Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version}.tar.gz
 Patch0:		%{_orig_name}-makefile.patch
 %{!?_without_dist_kernel:BuildRequires:         kernel-headers }
+BuildRequires:	%{kgcc}
 Obsoletes:	kernel-smp-net-%{_orig_name}
 Obsoletes:	e100
 Obsoletes:	linux-net-e100
 Provides:	kernel(e100)
 Prereq:		/sbin/depmod
-%{!?_without_dist_kernel:Requires:	kernel-up = %{_kernel_ver}}
+%{!?_without_dist_kernel:%requires_releq_kernel_up}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-BuildRequires:	egcs
 
 %description
 This package contains the Linux driver for the Intel(R) PRO/100 family
@@ -35,17 +35,17 @@ of 10/100 Ethernet network adapters.
 Ten pakiet zawiera sterownik dla Linuksa do kart sieciowych 10/100Mbit
 z rodziny Intel(R) PRO/100.
 
-
 %package -n kernel-smp-net-%{_orig_name}
 Summary:	Intel(R) PRO/100 driver for Linux SMP
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
 Release:	%{_rel}@%{_kernel_ver_str}
-%{!?_without_dist_kernel:Requires:     kernel-smp = %{_kernel_ver}}
+Group:		Base/Kernel
+Prereq:		/sbin/depmod
+%{!?_without_dist_kernel:%requires_releq_kernel_smp}
 Obsoletes:	kernel-net-%{_orig_name}
 Obsoletes:	e100
 Obsoletes:	linux-net-e100
 Provides:	kernel(e100)
-Group:		Base/Kernel
 
 %description -n kernel-smp-net-%{_orig_name}
 This package contains the Linux SMP driver for the Intel(R) PRO/100
@@ -60,10 +60,10 @@ Ten pakiet zawiera sterownik dla Linuksa SMP do kart sieciowych
 %patch0 -p0
 
 %build
-%{__make} -C src SMP=1 CC="kgcc -DCONFIG_X86_LOCAL_APIC -DSTB_WA"
-mv src/%{_orig_name}.o src/%{_orig_name}-smp.o
+%{__make} -C src SMP=1 CC="%{kgcc} -DCONFIG_X86_LOCAL_APIC -DSTB_WA"
+mv -f src/%{_orig_name}.o src/%{_orig_name}-smp.o
 %{__make} -C src clean
-%{__make} -C src CC="kgcc -DSTB_WA"
+%{__make} -C src CC="%{kgcc} -DSTB_WA"
 
 %install
 rm -rf $RPM_BUILD_ROOT
