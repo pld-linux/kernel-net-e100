@@ -54,10 +54,13 @@ Ten pakiet zawiera sterownik dla Linuksa SMP do kart sieciowych
 
 %build
 
-%{__make} -C src SMP=1 CC="%{kgcc} -DSTB_WA" KSRC=%{_kernelsrcdir} \
 %ifarch %{ix86}
--DCONFIG_X86_LOCAL_APIC
+%{__make} -C src SMP=1 CC="%{kgcc} -DSTB_WA -DCONFIG_X86_LOCAL_APIC" KSRC=%{_kernelsrcdir}
+%else
+%{__make} -C src SMP=1 CC="%{kgcc} -DSTB_WA" KSRC=%{_kernelsrcdir}
 %endif
+
+
 
 mv -f src/%{_orig_name}.o src/%{_orig_name}-smp.o
 %{__make} -C src clean KSRC=%{_kernelsrcdir}
