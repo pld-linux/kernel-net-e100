@@ -5,7 +5,7 @@
 %define		_kernel_ver	%(grep UTS_RELEASE %{_kernelsrcdir}/include/linux/version.h 2>/dev/null | cut -d'"' -f2)
 %define		_kernel_ver_str	%(echo %{_kernel_ver} | sed s/-/_/g)
 %define		_orig_name	e100
-%define		_rel 1
+%define		_rel 2
 
 Summary:	Intel(R) PRO/100 driver for Linux
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
@@ -67,10 +67,10 @@ z rodziny Intel(R) PRO/100.
 %patch1 -p0
 
 %build
-%{__make} -C src SMP=1 CC="kgcc -DCONFIG_X86_LOCAL_APIC"
+%{__make} -C src SMP=1 CC="kgcc -DCONFIG_X86_LOCAL_APIC -DSTB_WA"
 mv src/%{_orig_name}.o src/%{_orig_name}-smp.o
 %{__make} -C src clean
-%{__make} -C src CC="kgcc"
+%{__make} -C src CC="kgcc -DSTB_WA"
 
 %install
 rm -rf $RPM_BUILD_ROOT
