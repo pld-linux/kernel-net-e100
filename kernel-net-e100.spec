@@ -105,9 +105,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc e100.7 README LICENSE
-/lib/modules/%{_kernel_ver}/misc/*
+/lib/modules/%{_kernel_ver}/kernel/drivers/net/misc/*
 
 %files -n kernel-smp-net-%{_orig_name}
 %defattr(644,root,root,755)
 %doc e100.7 README LICENSE
-/lib/modules/%{_kernel_ver}smp/misc/*
+/lib/modules/%{_kernel_ver}smp/kernel/drivers/net/misc/*
