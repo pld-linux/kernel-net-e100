@@ -8,7 +8,7 @@
 Summary:	Intel(R) PRO/100 driver for Linux
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
 Name:		kernel-net-%{_orig_name}
-Version:	1.8.38
+Version:	2.0.30
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	BSD
 Vendor:		Intel Corporation
@@ -69,8 +69,6 @@ install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
 install src/%{_orig_name}-smp.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc/%{_orig_name}.o
 install src/%{_orig_name}.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc/%{_orig_name}.o
 
-gzip -9nf %{_orig_name}.txt src/e100.7
-
 %clean 
 rm -rf $RPM_BUILD_ROOT
 
@@ -88,10 +86,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz src/*.gz
+%doc e100.7 e100.txt LICENSE
 /lib/modules/%{_kernel_ver}/misc/*
 
 %files -n kernel-smp-net-%{_orig_name}
 %defattr(644,root,root,755)
-%doc *.gz src/*.gz
+%doc e100.7 e100.txt LICENSE
 /lib/modules/%{_kernel_ver}smp/misc/*
