@@ -15,21 +15,6 @@ Release:	%{_rel}@%{_kernel_ver_str}
 License:	BSD
 Vendor:		Intel Corporation
 Group:		Base/Kernel
-Group(cs):	Základ/Jádro
-Group(da):	Basal/Kerne
-Group(de):	Grundsätzlich/Kern
-Group(es):	Base/Núcleo
-Group(fr):	Base/Noyau
-Group(is):	Grunnforrit/Kjarninn
-Group(it):	Base/Kernel
-Group(ja):	¥Ù¡¼¥¹/¥«¡¼¥Í¥ë
-Group(no):	Basis/Kjerne
-Group(pl):	Podstawowe/J±dro
-Group(pt):	Base/Núcleo
-Group(ru):	âÁÚÁ/ñÄÒÏ
-Group(sl):	Osnova/Jedro
-Group(sv):	Bas/Kärna
-Group(uk):	âÁÚÁ/ñÄÒÏ
 Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version}.tar.gz
 Patch0:		%{_orig_name}-makefile.patch
 %{!?_without_dist_kernel:BuildRequires:         kernel-headers }
@@ -63,21 +48,6 @@ Obsoletes:	e100
 Obsoletes:	linux-net-e100
 Provides:	kernel(e100)
 Group:		Base/Kernel
-Group(cs):	Základ/Jádro
-Group(da):	Basal/Kerne
-Group(de):	Grundsätzlich/Kern
-Group(es):	Base/Núcleo
-Group(fr):	Base/Noyau
-Group(is):	Grunnforrit/Kjarninn
-Group(it):	Base/Kernel
-Group(ja):	¥Ù¡¼¥¹/¥«¡¼¥Í¥ë
-Group(no):	Basis/Kjerne
-Group(pl):	Podstawowe/J±dro
-Group(pt):	Base/Núcleo
-Group(ru):	âÁÚÁ/ñÄÒÏ
-Group(sl):	Osnova/Jedro
-Group(sv):	Bas/Kärna
-Group(uk):	âÁÚÁ/ñÄÒÏ
 
 %description -n kernel-smp-net-%{_orig_name}
 This package contains the Linux SMP driver for the Intel(R) PRO/100
