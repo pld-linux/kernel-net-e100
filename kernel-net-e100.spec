@@ -29,6 +29,7 @@ Prereq:		/sbin/depmod
 %{!?_without_dist_kernel:Conflicts:	kernel < %{_kernel_ver}, kernel > %{_kernel_ver}}
 %{!?_without_dist_kernel:Conflicts:	kernel-smp}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+BuildRequires:	egcs
 
 %description
 This package contains the Linux driver for the Intel(R) PRO/100 family
