@@ -4,6 +4,10 @@
 #
 %define		_orig_name	e100
 
+
+%{!?_without_dist_kernel:%define        _mod_name %{_orig_name}_intel }
+%{?_without_dist_kernel:%define         _mod_name %{_orig_name} }
+
 Summary:	Intel(R) PRO/100 driver for Linux
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
 Name:		kernel-net-%{_orig_name}
@@ -58,21 +62,30 @@ Ten pakiet zawiera sterownik dla Linuksa SMP do kart sieciowych
 
 %build
 %ifarch %{ix86}
-%{__make} -C src SMP=1 CC="%{kgcc} -DSTB_WA -DCONFIG_X86_LOCAL_APIC" KSRC=%{_kernelsrcdir}
-%else
+%{__make} -C src SMP=1 CC="%{kgcc} -DCONFIG_X86_LOCAL_APIC -DSTB_WA" KSRC=%{_kernelsrcdir}
+%endif
+%ifarch ppc
+%{__make} -C src SMP=1 CC="%{kgcc} -msoft-float  -DSTB_WA" KSRC=%{_kernelsrcdir}
+%endif
+%ifnarch %{ix86} ppc
 %{__make} -C src SMP=1 CC="%{kgcc} -DSTB_WA" KSRC=%{_kernelsrcdir}
 %endif
-
 mv -f src/%{_orig_name}.o src/%{_orig_name}-smp.o
+
 %{__make} -C src clean KSRC=%{_kernelsrcdir}
+
+%ifarch ppc
+%{__make} -C src CC="%{kgcc} -msoft-float -DSTB_WA" KSRC=%{_kernelsrcdir}
+%else
 %{__make} -C src CC="%{kgcc} -DSTB_WA" KSRC=%{_kernelsrcdir}
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
 install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
-install src/%{_orig_name}-smp.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc/%{_orig_name}.o
-install src/%{_orig_name}.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc/%{_orig_name}.o
+install src/%{_orig_name}-smp.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/kernel/drivers/net/misc/%{_mod_name}.o
+install src/%{_orig_name}.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/kernel/drivers/net/misc/%{_mod_name}.o
 
 %clean
 rm -rf $RPM_BUILD_ROOT
