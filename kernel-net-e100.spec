@@ -17,6 +17,7 @@ Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version
 Patch0:		%{_orig_name}-makefile.patch
 %{!?_without_dist_kernel:BuildRequires:         kernel-headers }
 BuildRequires:	%{kgcc_package}
+URL:		http://support.intel.com/support/network/adapter/pro100/
 Obsoletes:	e100
 Obsoletes:	linux-net-e100
 Provides:	kernel(e100)
