@@ -5,7 +5,7 @@
 %define		_kernel_ver	%(grep UTS_RELEASE %{_kernelsrcdir}/include/linux/version.h 2>/dev/null | cut -d'"' -f2)
 %define		_kernel_ver_str	%(echo %{_kernel_ver} | sed s/-/_/g)
 %define		_orig_name	e100
-%define		_rel 2
+%define		_rel 3
 
 Summary:	Intel(R) PRO/100 driver for Linux
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
