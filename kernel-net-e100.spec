@@ -3,12 +3,12 @@
 # _without_dist_kernel          without distribution kernel
 
 %define		_orig_name	e100
-%define		_rel 1
 
 Summary:	Intel(R) PRO/100 driver for Linux
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
 Name:		kernel-net-%{_orig_name}
 Version:	2.0.30
+%define	_rel	2
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	BSD
 Vendor:		Intel Corporation
