@@ -43,7 +43,7 @@ z rodziny Intel(R) PRO/100.
 Summary:        Intel(R) PRO/100 driver for Linux SMP
 Summary(pl):    Sterownik do karty Intel(R) PRO/100
 Release:        %{_rel}@%{_kernel_ver_str}
-%{!?_without_dist_kernel:Conflicts:     kernel < %{_kernel-ver}, kernel > %{_lernel_ver}}
+%{!?_without_dist_kernel:Conflicts:     kernel < %{_kernel_ver}, kernel > %{_kernel_ver}}
 %{!?_without_dist_kernel:Conflicts:     kernel-up}
 Obsoletes: 	kernel-net-%{_orig_name}
 Obsoletes:      e100
