@@ -13,8 +13,7 @@ Vendor:		Intel Corporation
 Group:		Base/Kernel
 Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version}.tar.gz
 URL:		http://support.intel.com/support/network/adapter/pro100/
-%{!?_without_dist_kernel:BuildRequires:         kernel-headers }
-BuildRequires:	kernel-source
+%{!?_without_dist_kernel:BuildRequires:         kernel-source }
 BuildRequires:	%{kgcc_package}
 Prereq:		/sbin/depmod
 %{!?_without_dist_kernel:%requires_releq_kernel_up}
@@ -54,10 +53,10 @@ Ten pakiet zawiera sterownik dla Linuksa SMP do kart sieciowych
 %setup -q -n %{_orig_name}-%{version}
 
 %build
-%{__make} -C src SMP=1 CC="%{kgcc} -DCONFIG_X86_LOCAL_APIC -DSTB_WA" KSRC=/usr/src/linux
+%{__make} -C src SMP=1 CC="%{kgcc} -DCONFIG_X86_LOCAL_APIC -DSTB_WA" KSRC=%{_kernelsrcdir}
 mv -f src/%{_orig_name}.o src/%{_orig_name}-smp.o
-%{__make} -C src clean KSRC=/usr/src/linux
-%{__make} -C src CC="%{kgcc} -DSTB_WA" KSRC=/usr/src/linux
+%{__make} -C src clean KSRC=%{_kernelsrcdir}
+%{__make} -C src CC="%{kgcc} -DSTB_WA" KSRC=%{_kernelsrcdir}
 
 %install
 rm -rf $RPM_BUILD_ROOT
