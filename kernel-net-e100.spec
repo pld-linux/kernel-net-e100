@@ -2,10 +2,8 @@
 # conditional build
 # _without_dist_kernel          without distribution kernel
 
-%define		_kernel_ver	%(grep UTS_RELEASE %{_kernelsrcdir}/include/linux/version.h 2>/dev/null | cut -d'"' -f2)
-%define		_kernel_ver_str	%(echo %{_kernel_ver} | sed s/-/_/g)
 %define		_orig_name	e100
-%define		_rel 3
+%define		_rel 4
 
 Summary:	Intel(R) PRO/100 driver for Linux
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
@@ -19,7 +17,6 @@ Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version
 Patch0:		%{_orig_name}-makefile.patch
 %{!?_without_dist_kernel:BuildRequires:         kernel-headers }
 BuildRequires:	%{kgcc_package}
-Obsoletes:	kernel-smp-net-%{_orig_name}
 Obsoletes:	e100
 Obsoletes:	linux-net-e100
 Provides:	kernel(e100)
@@ -42,7 +39,6 @@ Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Prereq:		/sbin/depmod
 %{!?_without_dist_kernel:%requires_releq_kernel_smp}
-Obsoletes:	kernel-net-%{_orig_name}
 Obsoletes:	e100
 Obsoletes:	linux-net-e100
 Provides:	kernel(e100)
@@ -67,10 +63,10 @@ mv -f src/%{_orig_name}.o src/%{_orig_name}-smp.o
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/net
-install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/net
-install src/%{_orig_name}-smp.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/net/%{_orig_name}.o
-install src/%{_orig_name}.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/net/%{_orig_name}.o
+install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
+install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
+install src/%{_orig_name}-smp.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc/%{_orig_name}.o
+install src/%{_orig_name}.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc/%{_orig_name}.o
 
 gzip -9nf %{_orig_name}.txt
 
@@ -92,9 +88,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc *.gz
-/lib/modules/%{_kernel_ver}/net/*
+/lib/modules/%{_kernel_ver}/misc/*
 
 %files -n kernel-smp-net-%{_orig_name}
 %defattr(644,root,root,755)
 %doc *.gz 
-/lib/modules/%{_kernel_ver}smp/net/*
+/lib/modules/%{_kernel_ver}smp/misc/*
