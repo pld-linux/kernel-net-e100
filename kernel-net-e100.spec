@@ -18,7 +18,7 @@ Group:		Base/Kernel
 Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version}.tar.gz
 Patch0:		%{_orig_name}-makefile.patch
 %{!?_without_dist_kernel:BuildRequires:         kernel-headers }
-BuildRequires:	%{kgcc}
+BuildRequires:	%{kgcc_package}
 Obsoletes:	kernel-smp-net-%{_orig_name}
 Obsoletes:	e100
 Obsoletes:	linux-net-e100
