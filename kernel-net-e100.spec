@@ -3,7 +3,7 @@
 # _without_dist_kernel          without distribution kernel
 
 %define		_orig_name	e100
-%define		_rel 4
+%define		_rel 5
 
 Summary:	Intel(R) PRO/100 driver for Linux
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
