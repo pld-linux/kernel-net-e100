@@ -18,6 +18,7 @@ Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version
 URL:		http://support.intel.com/support/network/adapter/pro100/
 %{!?_without_dist_kernel:BuildRequires:         kernel-source > 2.4 }
 BuildRequires:	%{kgcc_package}
+BuildRequires:	rpmbuild(macros) >= 1.118
 %{!?_without_dist_kernel:%requires_releq_kernel_up}
 Requires(post,postun):	/sbin/depmod
 Provides:	kernel(e100)
@@ -77,16 +78,16 @@ install src/%{_orig_name}.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc/%{_o
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/depmod -a %{!?_without_dist_kernel:-F /boot/System.map-%{_kernel_ver} }%{_kernel_ver}
+%depmod %{_kernel_ver}
 
 %postun
-/sbin/depmod -a %{!?_without_dist_kernel:-F /boot/System.map-%{_kernel_ver} }%{_kernel_ver}
+%depmod %{_kernel_ver}
 
 %post	-n kernel-smp-net-%{_orig_name}
-/sbin/depmod -a %{!?_without_dist_kernel:-F /boot/System.map-%{_kernel_ver} }%{_kernel_ver}
+%depmod %{_kernel_ver}smp
 
 %postun -n kernel-smp-net-%{_orig_name}
-/sbin/depmod -a %{!?_without_dist_kernel:-F /boot/System.map-%{_kernel_ver} }%{_kernel_ver}
+%depmod %{_kernel_ver}smp
 
 %files
 %defattr(644,root,root,755)
