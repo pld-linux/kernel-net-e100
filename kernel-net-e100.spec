@@ -5,12 +5,12 @@
 %define		_kernel_ver	%(grep UTS_RELEASE %{_kernelsrcdir}/include/linux/version.h 2>/dev/null | cut -d'"' -f2)
 %define		_kernel_ver_str	%(echo %{_kernel_ver} | sed s/-/_/g)
 %define		_orig_name	e100
-%define		_rel 3
+%define		_rel 1
 
 Summary:	Intel(R) PRO/100 driver for Linux
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
 Name:		kernel-net-%{_orig_name}
-Version:	1.6.29
+Version:	1.8.37
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	BSD
 Vendor:		Intel Corporation
@@ -32,7 +32,6 @@ Group(sv):	Bas/K‰rna
 Group(uk):	‚¡⁄¡/Òƒ“œ
 Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version}.tar.gz
 Patch0:		%{_orig_name}-makefile.patch
-Patch1:		%{_orig_name}-redefine.patch
 %{!?_without_dist_kernel:BuildRequires:         kernel-headers }
 Obsoletes:	kernel-smp-net-%{_orig_name}
 Obsoletes:	e100
@@ -91,7 +90,6 @@ Ten pakiet zawiera sterownik dla Linuksa SMP do kart sieciowych
 %prep
 %setup -q -n e100-%{version}
 %patch0 -p0
-%patch1 -p0
 
 %build
 %{__make} -C src SMP=1 CC="kgcc -DCONFIG_X86_LOCAL_APIC -DSTB_WA"
