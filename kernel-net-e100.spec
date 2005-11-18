@@ -1,7 +1,7 @@
 #
 # Conditional build:
-# _without_dist_kernel          without distribution kernel
-#
+%bcond_without	dist_kernel	# allow non-distribution kernel
+
 %define		_orig_name	e100
 
 
@@ -23,12 +23,20 @@ URL:		http://support.intel.com/support/network/adapter/pro100/
 %{!?_without_dist_kernel:BuildRequires:	kernel-source > 2.4 }
 BuildRequires:	%{kgcc_package}
 BuildRequires:	rpmbuild(macros) >= 1.118
+%ifarch sparc
+BuildRequires:	crosssparc64-gcc
+%endif
 %{!?_without_dist_kernel:%requires_releq_kernel_up}
 Requires(post,postun):	/sbin/depmod
 Provides:	kernel(e100)
 Obsoletes:	e100
 Obsoletes:	linux-net-e100
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%ifarch sparc
+%define         _target_base_arch       sparc64
+%define         _target_cpu             sparc64
+%endif
 
 %description
 This package contains the Linux driver for the Intel(R) PRO/100 family
