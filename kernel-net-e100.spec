@@ -5,8 +5,8 @@
 %define		_orig_name	e100
 
 
-%{!?_without_dist_kernel:%define        _mod_name %{_orig_name}_intel }
-%{?_without_dist_kernel:%define         _mod_name %{_orig_name} }
+%{?with_dist_kernel:%define	_mod_name %{_orig_name}_intel }
+%{!?with_dist_kernel:%define	_mod_name %{_orig_name} }
 
 Summary:	Intel(R) PRO/100 driver for Linux
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
@@ -20,13 +20,13 @@ Group:		Base/Kernel
 Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version}.tar.gz
 # Source0-md5:	847918a08443aac122205c122d5c3f98
 URL:		http://support.intel.com/support/network/adapter/pro100/
-%{!?_without_dist_kernel:BuildRequires:	kernel-source > 2.4 }
+%{?with_dist_kernel:BuildRequires:	kernel-source > 2.4 }
 BuildRequires:	%{kgcc_package}
 BuildRequires:	rpmbuild(macros) >= 1.118
 %ifarch sparc
 BuildRequires:	crosssparc64-gcc
 %endif
-%{!?_without_dist_kernel:%requires_releq_kernel_up}
+%{?with_dist_kernel:%requires_releq_kernel_up}
 Requires(post,postun):	/sbin/depmod
 Provides:	kernel(e100)
 Obsoletes:	e100
@@ -34,8 +34,8 @@ Obsoletes:	linux-net-e100
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %ifarch sparc
-%define         _target_base_arch       sparc64
-%define         _target_cpu             sparc64
+%define		_target_base_arch	sparc64
+%define		_target_cpu		sparc64
 %endif
 
 %description
@@ -51,7 +51,7 @@ Summary:	Intel(R) PRO/100 driver for Linux SMP
 Summary(pl):	Sterownik do karty Intel(R) PRO/100
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
-%{!?_without_dist_kernel:%requires_releq_kernel_smp}
+%{?with_dist_kernel:%requires_releq_kernel_smp}
 Requires(post,postun):	/sbin/depmod
 Provides:	kernel(e100)
 Obsoletes:	e100
@@ -73,7 +73,7 @@ Ten pakiet zawiera sterownik dla Linuksa SMP do kart sieciowych
 %{__make} -C src SMP=1 CC="%{kgcc} -DCONFIG_X86_LOCAL_APIC -DSTB_WA" KSRC=%{_kernelsrcdir}
 %endif
 %ifarch ppc
-%{__make} -C src SMP=1 CC="%{kgcc} -msoft-float  -DSTB_WA" KSRC=%{_kernelsrcdir}
+%{__make} -C src SMP=1 CC="%{kgcc} -msoft-float -DSTB_WA" KSRC=%{_kernelsrcdir}
 %endif
 %ifnarch %{ix86} ppc
 %{__make} -C src SMP=1 CC="%{kgcc} -DSTB_WA" KSRC=%{_kernelsrcdir}
