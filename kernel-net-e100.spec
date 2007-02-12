@@ -9,7 +9,7 @@
 %{!?with_dist_kernel:%define	_mod_name %{_orig_name} }
 
 Summary:	Intel(R) PRO/100 driver for Linux
-Summary(pl):	Sterownik do karty Intel(R) PRO/100
+Summary(pl.UTF-8):   Sterownik do karty Intel(R) PRO/100
 Name:		kernel-net-%{_orig_name}
 Version:	2.3.33
 %define	_rel	1
@@ -42,13 +42,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 This package contains the Linux driver for the Intel(R) PRO/100 family
 of 10/100 Ethernet network adapters.
 
-%description -l pl
+%description -l pl.UTF-8
 Ten pakiet zawiera sterownik dla Linuksa do kart sieciowych 10/100Mbit
 z rodziny Intel(R) PRO/100.
 
 %package -n kernel-smp-net-%{_orig_name}
 Summary:	Intel(R) PRO/100 driver for Linux SMP
-Summary(pl):	Sterownik do karty Intel(R) PRO/100
+Summary(pl.UTF-8):   Sterownik do karty Intel(R) PRO/100
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 %{?with_dist_kernel:%requires_releq_kernel_smp}
@@ -61,7 +61,7 @@ Obsoletes:	linux-net-e100
 This package contains the Linux SMP driver for the Intel(R) PRO/100
 family of 10/100 Ethernet network adapters.
 
-%description -n kernel-smp-net-%{_orig_name} -l pl
+%description -n kernel-smp-net-%{_orig_name} -l pl.UTF-8
 Ten pakiet zawiera sterownik dla Linuksa SMP do kart sieciowych
 10/100Mbit z rodziny Intel(R) PRO/100.
 
