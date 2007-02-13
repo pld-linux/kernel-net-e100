@@ -9,7 +9,7 @@
 %{!?with_dist_kernel:%define	_mod_name %{_orig_name} }
 
 Summary:	Intel(R) PRO/100 driver for Linux
-Summary(pl.UTF-8):   Sterownik do karty Intel(R) PRO/100
+Summary(pl.UTF-8):	Sterownik do karty Intel(R) PRO/100
 Name:		kernel-net-%{_orig_name}
 Version:	2.3.33
 %define	_rel	1
@@ -48,7 +48,7 @@ z rodziny Intel(R) PRO/100.
 
 %package -n kernel-smp-net-%{_orig_name}
 Summary:	Intel(R) PRO/100 driver for Linux SMP
-Summary(pl.UTF-8):   Sterownik do karty Intel(R) PRO/100
+Summary(pl.UTF-8):	Sterownik do karty Intel(R) PRO/100
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 %{?with_dist_kernel:%requires_releq_kernel_smp}
