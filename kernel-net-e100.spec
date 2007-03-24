@@ -4,39 +4,26 @@
 
 %define		_orig_name	e100
 
-
-%{?with_dist_kernel:%define	_mod_name %{_orig_name}_intel }
-%{!?with_dist_kernel:%define	_mod_name %{_orig_name} }
-
 Summary:	Intel(R) PRO/100 driver for Linux
 Summary(pl.UTF-8):	Sterownik do karty Intel(R) PRO/100
 Name:		kernel-net-%{_orig_name}
-Version:	2.3.33
+Version:	3.5.17
 %define	_rel	1
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	BSD
 Vendor:		Intel Corporation
 Group:		Base/Kernel
-Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version}.tar.gz
-# Source0-md5:	847918a08443aac122205c122d5c3f98
+#Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version}.tar.gz
+Source0:	http://dl.sourceforge.net/e1000/%{_orig_name}-%{version}.tar.gz
+# Source0-md5:	519bc00c3315e127530dbe6968358634
 URL:		http://support.intel.com/support/network/adapter/pro100/
-%{?with_dist_kernel:BuildRequires:	kernel-source > 2.4 }
-BuildRequires:	%{kgcc_package}
-BuildRequires:	rpmbuild(macros) >= 1.118
-%ifarch sparc
-BuildRequires:	crosssparc64-gcc
-%endif
-%{?with_dist_kernel:%requires_releq_kernel_up}
+BuildRequires:	rpmbuild(macros) >= 1.379
+%{?with_dist_kernel:%requires_releq_kernel}
 Requires(post,postun):	/sbin/depmod
 Provides:	kernel(e100)
 Obsoletes:	e100
 Obsoletes:	linux-net-e100
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%ifarch sparc
-%define		_target_base_arch	sparc64
-%define		_target_cpu		sparc64
-%endif
 
 %description
 This package contains the Linux driver for the Intel(R) PRO/100 family
@@ -46,54 +33,19 @@ of 10/100 Ethernet network adapters.
 Ten pakiet zawiera sterownik dla Linuksa do kart sieciowych 10/100Mbit
 z rodziny Intel(R) PRO/100.
 
-%package -n kernel-smp-net-%{_orig_name}
-Summary:	Intel(R) PRO/100 driver for Linux SMP
-Summary(pl.UTF-8):	Sterownik do karty Intel(R) PRO/100
-Release:	%{_rel}@%{_kernel_ver_str}
-Group:		Base/Kernel
-%{?with_dist_kernel:%requires_releq_kernel_smp}
-Requires(post,postun):	/sbin/depmod
-Provides:	kernel(e100)
-Obsoletes:	e100
-Obsoletes:	linux-net-e100
-
-%description -n kernel-smp-net-%{_orig_name}
-This package contains the Linux SMP driver for the Intel(R) PRO/100
-family of 10/100 Ethernet network adapters.
-
-%description -n kernel-smp-net-%{_orig_name} -l pl.UTF-8
-Ten pakiet zawiera sterownik dla Linuksa SMP do kart sieciowych
-10/100Mbit z rodziny Intel(R) PRO/100.
-
 %prep
 %setup -q -n %{_orig_name}-%{version}
+cat > src/Makefile <<'EOF'
+obj-m := e100.o
+e100-objs := ethtool.o
+EOF
 
 %build
-%ifarch %{ix86}
-%{__make} -C src SMP=1 CC="%{kgcc} -DCONFIG_X86_LOCAL_APIC -DSTB_WA" KSRC=%{_kernelsrcdir}
-%endif
-%ifarch ppc
-%{__make} -C src SMP=1 CC="%{kgcc} -msoft-float -DSTB_WA" KSRC=%{_kernelsrcdir}
-%endif
-%ifnarch %{ix86} ppc
-%{__make} -C src SMP=1 CC="%{kgcc} -DSTB_WA" KSRC=%{_kernelsrcdir}
-%endif
-mv -f src/%{_orig_name}.o src/%{_orig_name}-smp.o
-
-%{__make} -C src clean KSRC=%{_kernelsrcdir}
-
-%ifarch ppc
-%{__make} -C src CC="%{kgcc} -msoft-float -DSTB_WA" KSRC=%{_kernelsrcdir}
-%else
-%{__make} -C src CC="%{kgcc} -DSTB_WA" KSRC=%{_kernelsrcdir}
-%endif
+%build_kernel_modules -C src -m e100
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/kernel/drivers/net/misc
-install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/kernel/drivers/net/misc
-install src/%{_orig_name}-smp.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/kernel/drivers/net/misc/%{_mod_name}.o
-install src/%{_orig_name}.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/kernel/drivers/net/misc/%{_mod_name}.o
+%install_kernel_modules -m src/e100 -d kernel/drivers/net -n e100 -s current
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -104,18 +56,8 @@ rm -rf $RPM_BUILD_ROOT
 %postun
 %depmod %{_kernel_ver}
 
-%post	-n kernel-smp-net-%{_orig_name}
-%depmod %{_kernel_ver}smp
-
-%postun -n kernel-smp-net-%{_orig_name}
-%depmod %{_kernel_ver}smp
-
 %files
 %defattr(644,root,root,755)
 %doc e100.7 README LICENSE
-/lib/modules/%{_kernel_ver}/kernel/drivers/net/misc/*
-
-%files -n kernel-smp-net-%{_orig_name}
-%defattr(644,root,root,755)
-%doc e100.7 README LICENSE
-/lib/modules/%{_kernel_ver}smp/kernel/drivers/net/misc/*
+/etc/modprobe.d/2.6.20.3-1/e100.conf
+/lib/modules/%{_kernel_ver}/kernel/drivers/net/*
