@@ -59,5 +59,5 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc e100.7 README LICENSE
-/etc/modprobe.d/2.6.20.3-1/e100.conf
+/etc/modprobe.d/%{_kernel_ver}/e100.conf
 /lib/modules/%{_kernel_ver}/kernel/drivers/net/*
