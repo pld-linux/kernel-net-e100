@@ -63,7 +63,7 @@ EOF
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%install_kernel_modules -m src/e1000 -d kernel/drivers/net -n e1000 -s current
+%install_kernel_modules -m src/e100 -d kernel/drivers/net -n e100 -s current
 
 %clean
 rm -rf $RPM_BUILD_ROOT
