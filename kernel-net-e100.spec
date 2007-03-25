@@ -13,7 +13,6 @@ Release:	%{_rel}@%{_kernel_ver_str}
 License:	BSD
 Vendor:		Intel Corporation
 Group:		Base/Kernel
-#Source0:	ftp://aiedownload.intel.com/df-support/2896/eng/%{_orig_name}-%{version}.tar.gz
 Source0:	http://dl.sourceforge.net/e1000/%{_orig_name}-%{version}.tar.gz
 # Source0-md5:	519bc00c3315e127530dbe6968358634
 URL:		http://support.intel.com/support/network/adapter/pro100/
