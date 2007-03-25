@@ -1,6 +1,8 @@
 #
 # Conditional build:
 %bcond_without	dist_kernel	# allow non-distribution kernel
+%bcond_without	smp		# don't build SMP module
+%bcond_without	up		# don't build UP module
 
 %define		_orig_name	e100
 
@@ -86,8 +88,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/modprobe.d/%{_kernel_ver}/e100.conf
 /lib/modules/%{_kernel_ver}/kernel/drivers/net/*
 
+%if %{with smp} && %{with dist_kernel}
 %files -n kernel-smp-net-%{_orig_name}
 %defattr(644,root,root,755)
 %doc e100.7 README LICENSE
-/etc/modprobe.d/%{_kernel_ver}/e100.conf
+/etc/modprobe.d/%{_kernel_ver}smp/e100.conf
 /lib/modules/%{_kernel_ver}smp/kernel/drivers/net/*
+%endif
