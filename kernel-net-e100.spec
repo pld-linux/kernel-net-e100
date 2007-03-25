@@ -45,7 +45,7 @@ EOF
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%install_kernel_modules -m src/e100 -d kernel/drivers/net -n e100 -s current
+%install_kernel_modules -m src/e100 -d kernel/drivers/net/misc -n e100 -s current
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -60,4 +60,4 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc e100.7 README LICENSE
 /etc/modprobe.d/%{_kernel_ver}/e100.conf
-/lib/modules/%{_kernel_ver}/kernel/drivers/net/*
+/lib/modules/%{_kernel_ver}/kernel/drivers/net/misc/e100*.ko*
