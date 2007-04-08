@@ -15,7 +15,7 @@ Vendor:		Intel Corporation
 Group:		Base/Kernel
 Source0:	http://dl.sourceforge.net/e1000/%{_orig_name}-%{version}.tar.gz
 # Source0-md5:	519bc00c3315e127530dbe6968358634
-URL:		http://support.intel.com/support/network/adapter/pro100/
+URL:		http://sourceforge.net/projects/e1000/
 BuildRequires:	rpmbuild(macros) >= 1.379
 %{?with_dist_kernel:%requires_releq_kernel}
 Requires(post,postun):	/sbin/depmod
