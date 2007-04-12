@@ -6,7 +6,7 @@
 
 Summary:	Intel(R) PRO/100 driver for Linux
 Summary(pl.UTF-8):	Sterownik do karty Intel(R) PRO/100
-Name:		kernel-net-%{_orig_name}
+Name:		kernel%{_alt_kernel}-net-%{_orig_name}
 Version:	3.5.17
 %define	_rel	1
 Release:	%{_rel}@%{_kernel_ver_str}
@@ -16,6 +16,7 @@ Group:		Base/Kernel
 Source0:	http://dl.sourceforge.net/e1000/%{_orig_name}-%{version}.tar.gz
 # Source0-md5:	519bc00c3315e127530dbe6968358634
 URL:		http://sourceforge.net/projects/e1000/
+%{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
 %{?with_dist_kernel:%requires_releq_kernel}
 Requires(post,postun):	/sbin/depmod
